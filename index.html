@@ -1,0 +1,44 @@
+<style type="text/css">
+/* select */
+span.searchStyleSelectBox {height:40px; font-size:13px; color:#777; background:url('img/bg_search_select.gif') right center #fff no-repeat; border-left:1px #d9d9d9 solid;}
+span.searchStyleSelectBox.changed {background-color:#fff;}
+.searchStyleSelectBoxInner {font-size:13px; color:#777; white-space:nowrap; line-height:40px; padding:0 68px 0 18px;}
+</style>
+
+
+<select class="select">
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3333">3333</option>
+</select>
+
+
+
+
+<script type="text/javascript">
+$(function(){
+
+	// select box
+	$.fn.extend({
+		searchStyle : function(options) {
+			this.each(function() {
+				var currentSelected = $(this).find(':selected');
+				$(this).after('<span class="searchStyleSelectBox"><span class="searchStyleSelectBoxInner">'+currentSelected.text()+'</span></span>').css({position:'absolute', opacity:0,fontSize:$(this).next().css('font-size')});
+				var selectBoxSpan = $(this).next();
+				var selectBoxWidth = parseInt($(this).width()) - parseInt(selectBoxSpan.css('padding-left'));   
+				var selectBoxSpanInner = selectBoxSpan.find(':first-child');
+				selectBoxSpan.css({display:'inline-block'});
+				selectBoxSpanInner.css({width:selectBoxWidth, display:'inline'});
+				var selectBoxHeight = parseInt(selectBoxSpan.height()) + parseInt(selectBoxSpan.css('padding-top')) + parseInt(selectBoxSpan.css('padding-bottom'));
+				var selectWidth = $(this).siblings(".searchStyleSelectBox").width();
+				$(this).css('width',selectWidth+'px');
+				$(this).height(selectBoxHeight).change(function(){
+					selectBoxSpanInner.text($(this).find(':selected').text()).parent().addClass('changed');
+				});
+			});
+		}
+	}); $('.select').searchStyle();
+  
+ });
+
+</script>
